@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cookie;
 
 class User extends Authenticatable
 {
@@ -15,25 +16,26 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $fillable = ['username'];
+
+
+    public function getConversationsAttribute()
+    {
+        $user = Cookie::get('user_id');
+        return Conversation::where('user_1', $user)->orWhere('user_2', $user)
+            ->with('messages')->get();
+    }
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Scope a query to only include others users.
      *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
+     * @param \Illuminate\Database\Eloquent\Builder $query
      *
-     * @var array
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function scopeOthers($query)
+    {
+        $user = session('user');
+        return $query->where('id', '<>', $user->id);
+    }
 }
