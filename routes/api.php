@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::resource('conversations', 'ConversationController');
+Route::resource('messages', 'MessageController');
+Route::resource('users','UserController');
