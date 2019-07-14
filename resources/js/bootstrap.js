@@ -9,9 +9,10 @@ window._ = require('lodash');
 try {
     window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
-
+    
     require('bootstrap');
-} catch (e) {}
+} catch (e) {
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -22,6 +23,76 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+window.axios.interceptors.response.use((response) => {
+    
+    //Store Current User
+    if (response.data.hasOwnProperty('currentUser')) {
+        vm.setCurrentUser(response.data.currentUser)
+    }
+    
+    //Toast Message
+    if (response.data.hasOwnProperty('message')) {
+        Toast.create.positive({
+            html:    response.data.message,
+            icon:    'fa-check-circle',
+            timeout: 2500,
+        })
+    }
+    
+    return Promise.resolve(response)
+}, (error) => {
+    
+    handleError(error);
+    
+    return Promise.reject(error)
+});
+
+function handleError(error) {   //Quasar Toast Schema
+    let message = {
+        html:    'Network Error.',
+        icon:    'fa-warning',
+        timeout: 2500,
+    };
+    
+    //Setup Error Message
+    if (typeof error !== 'undefined') {
+        if (error.hasOwnProperty('message')) {
+            message.html = error.message
+        }
+    }
+    
+    if (typeof error.response !== 'undefined') {
+        
+        //Setup Generic Response Messages
+        if (error.response.status === 401) {
+            message.html = 'UnAuthorized';
+            alert("Oops! You have to login first! You'll be redirected now :)")
+            // Simulate an HTTP redirect:
+            window.location.replace("/logout");
+        } else if (error.response.status === 404) {
+            message.html = 'API Route is Missing or Undefined'
+        } else if (error.response.status === 405) {
+            message.html = 'API Route Method Not Allowed'
+        } else if (error.response.status === 422) {
+            //Validation Message
+        } else if (error.response.status >= 500) {
+            message.html = 'Server Error'
+        }
+        
+        //Try to Use the Response Message
+        if (error.hasOwnProperty('response') && error.response.hasOwnProperty('data')) {
+            if (error.response.data.hasOwnProperty('message') && error.response.data.message.length > 0) {
+                message.html = error.response.data.message
+            }
+        }
+    }
+    
+    //Toast the Message
+    if (message.html.length > 0) {
+        alert(message.html);
+    }
+}
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
