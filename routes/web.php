@@ -17,4 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::resource('users','UserController');
+Route::resource('users', 'UserController');
+
+Route::get('login', function () {
+    return view('welcome');
+})->name('login');
+Route::post('/login', 'HomeController@login')->name('login');
+Route::get('/logout','HomeController@logout')->name('logout');
