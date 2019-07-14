@@ -19,7 +19,7 @@ class ConversationController extends Controller
     public function index()
     {
         $user = Cookie::get('user_id');
-        $conversations = User::find($user);
+        $conversations = User::findOrFail($user);
 
         return response()->json($conversations->append('conversations')
             ->toArray());
@@ -92,7 +92,7 @@ class ConversationController extends Controller
             function ($query) use ($user) {
                 $query->where('user_1', $user)
                     ->orWhere('user_2', $user);
-            })->first();
+            })->firstOrFail();
 
         return response()->json($conversation);
     }

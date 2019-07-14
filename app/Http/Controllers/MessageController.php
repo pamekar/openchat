@@ -40,7 +40,15 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $user = Cookie::get('user_id');
-        $conversation = Conversation::find($request->input('conversation_id'));
+        // find the conversation
+        $conversation = Conversation::where('id',
+            $request->input('conversation_id'))->where(
+            function ($query) use ($user) {
+                $query->where('user_1', $user)
+                    ->orWhere('user_2', $user);
+            })->firstOrFail();
+
+        // add messages to the conversation
         $message = $conversation->messages()->create([
             'user_id' => $user,
             'content' => $request->input('content')
