@@ -20,9 +20,14 @@
                 </div>
             </div>
         </div>
-        <div class="alert alert-info" v-else>
+        <div class="alert alert-info alert-dismissible" v-else>
             <h3 class="alert-heading">Oops! You have no active chat.</h3>
-            <p class="alert-dismissible"> Please select a conversation from the left sidebar, or start a new chart with one of the users on the right sidebar.</p>
+            <ul>
+                <li>Please select a conversation from the left sidebar, or start a new chart with one of the users on the right sidebar.</li>
+                <li>If there are no users, just invite a friend. If you have no friend, just wait a bit for someone to join :)</li>
+                <li>When you've found a user, please start a conversation.</li>
+                <li>Try one of the above to make this alert go away ;)</li>
+            </ul>
         </div>
     </div>
 </template>
