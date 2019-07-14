@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Cookie Age
+    |--------------------------------------------------------------------------
+    |
+    | This value is the chosen age of cookies created by your application.
+    | This value is used when the user_id and username are stored or deleted as
+    | cookies during user login and logout from application
+    |
+    */
+
+    'cookie_age'=>3*365*24*60,
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
