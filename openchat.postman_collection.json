@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "c6a640ba-9a98-483d-adf6-3d6be447010e",
+		"name": "openchat",
+		"description": "An Openchat application without authentication :)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8000/api/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8000/api/users/pamekar",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						"pamekar"
+					]
+				},
+				"description": "List all users\n"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/api/users/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8000/api/users/pamekar",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						"pamekar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/api/conversations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user",
+							"value": "2",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/conversations",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"conversations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/api/conversations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8000/api/conversations",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"conversations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/api/conversations/:id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8000/api/conversations",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"conversations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8000/api/messages",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "conversation_id",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "Just a sample message",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/messages",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
