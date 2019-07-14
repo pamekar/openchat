@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 
 class ConversationController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -43,8 +44,8 @@ class ConversationController extends Controller
      */
     public function store(Request $request)
     {
-        $user1 = intval(Cookie::get('user_id'));
-        $user2 = intval($request->input('user'));
+        $user1 = Cookie::get('user_id');
+        $user2 = $request->input('user');
 
         // fetch existing conversation
         $conversation = Conversation::where(function ($query) use (
