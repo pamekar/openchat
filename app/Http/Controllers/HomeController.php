@@ -4,23 +4,52 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
-    //
-    public function index(Request $request,$username)
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $user = User::firstOrCreate(['username' => $username]);
-        $request->session()->put('user', $user);
 
-        return view('chat');
     }
 
-    public function logout(Request $request)
+    /**
+     * Login to application
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function login(Request $request)
     {
-        $request->session()->forget('user');
+        $username= $request->input('username');
+        $user = User::firstOrCreate(['username' => $username]);
 
-        return redirect()->route('welcome')
-            ->with('status', "You've successfully logged out");
+        // Set cookie
+        Cookie::queue('user_id', $user->id, config('app.cookieAge'), '', '',
+            false, false);
+        Cookie::queue('username', $user->username, config('app.cookieAge'), '', '',
+            false, false);
+        return redirect()->route('users.show',['id'=>$user->id]);
+    }
+
+    /**
+     * Logout from application 
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(Request $request){
+        // Expire cookie
+        Cookie::queue('user_id', "", -config('app.cookieAge'), '', '',
+            false, false);
+        Cookie::queue('username', "", -config('app.cookieAge'), '', '',
+            false, false);
+        return redirect()->route('welcome');
+
     }
 }
