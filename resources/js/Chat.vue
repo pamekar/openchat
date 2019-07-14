@@ -50,10 +50,6 @@
 
                 </div>
             </div>
-
-
-            <p class="text-center top_spac"> Design by <a target="_blank" href="#">Sunil Rajput</a></p>
-
         </div>
     </div>
 </template>
