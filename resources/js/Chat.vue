@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <h3 class=" text-center">Messaging</h3>
+        <h3 class=" text-center">Messaging - <span>{{chattingWith}} | <a href="/logout" class="btn btn-primary btn-sm"><i class="fa fa-sign-out mr-1"></i> Logout</a></span></h3>
         <div class="messaging">
             <div class="inbox_msg row">
                 <div class="inbox_people col-md-3">
@@ -27,7 +27,7 @@
                                 <input type="text" class="write_msg" placeholder="Type a message" v-model="message"/>
                                 <button type="button" title="Reload" class="msg_refresh_btn" @click="getConversation(activeConversation)"><i aria-hidden="true" class="fa fa-refresh"></i></button>
                                 <button class="msg_send_btn" type="submit" title="send"><i class="fa fa-paper-plane-o"
-                                                                              aria-hidden="true"></i></button>
+                                                                                           aria-hidden="true"></i></button>
                             </form>
 
                         </div>
@@ -68,6 +68,7 @@
         data() {
             return {
                 activeConversation: 0,
+                chattingWith:       "",
                 conversations:      [],
                 message:            "",
                 messages:           [],
@@ -87,6 +88,7 @@
                     .then(({data}) => {
                         this.messages = data.messages;
                         this.activeConversation = parseInt(data.id);
+                        this.chattingWith = data.username_1 === this.username ? data.username_2 : data.username_1;
                         this.getConversations();
                     });
             },
@@ -94,13 +96,6 @@
                 axios.get("/api/conversations")
                     .then(({data}) => {
                         this.conversations = data.conversations;
-                        this.activeConversation = data.conversations.length > 0 ? parseInt(data.conversations[0].id) : 0;
-                    });
-            },
-            getMessages() {
-                axios.get(`/api/conversations/${this.activeConversation}`)
-                    .then(({data}) => {
-                        this.messages = data.messages;
                     });
             },
             getUsers() {
