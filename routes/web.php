@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::resource('users', 'UserController');
+Route::resource('users', 'UserController')->middleware('checkLoggedIn');
 
 Route::get('login', function () {
     return view('welcome');

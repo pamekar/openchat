@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('conversations', 'ConversationController');
-Route::resource('messages', 'MessageController');
-Route::resource('users','UserController');
+Route::resource('conversations', 'ConversationController')
+    ->middleware('checkLoggedIn');
+Route::resource('messages', 'MessageController')->middleware('checkLoggedIn');
+Route::resource('users', 'UserController')->middleware('checkLoggedIn');
