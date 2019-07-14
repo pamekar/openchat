@@ -54,17 +54,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         //
-        $user = User::firstOrCreate(['username' => $id]);
-        $cookieExpires=1;
-        Cookie::queue('user_id', $user->id, $cookieExpires, '', '',
-            false, false);
-        Cookie::queue('username', $user->username, $cookieExpires, '', '',
-            false, false);
-
-        return view('chat');
+        return view('user');
     }
 
     /**
